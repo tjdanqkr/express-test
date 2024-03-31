@@ -1,35 +1,14 @@
 import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import errorhandler from "errorhandler";
-import morgan from "morgan";
+import authRouter from "./router/auth.js";
+import boardRouter from "./router/board.js";
+import { setting } from "./utils/util.js";
+
 const app = express();
-const port = 3000;
-const corsOptions = {
-  origin: "*",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-};
-const setting = (app) => {
-  app.use(cors(corsOptions));
-  app.use(cookieParser());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(errorhandler());
-  app.use(morgan("dev"));
-};
 setting(app);
-const data = [];
+const port = 4000;
 
-app.get("/board", (req, res) => {
-  res.send(data);
-});
-
-app.post("/board", (req, res) => {
-  req.body.id = data.length + 1;
-  data.push(req.body);
-  res.status(201).send();
-});
+app.use("/api/auth", authRouter);
+app.use("/api/boards", boardRouter);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
