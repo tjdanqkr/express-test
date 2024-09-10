@@ -5,7 +5,7 @@ import { setting } from "./utils/util.js";
 
 const app = express();
 setting(app);
-const port = 4000;
+const port = 80;
 
 app.use("/api/auth", authRouter);
 app.use("/api/boards", boardRouter);
